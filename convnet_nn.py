@@ -3,7 +3,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 # from keras.utils.visualize_util import plot
 
-INPUT_SHAPE = (10 * 10 * 256,)
+INPUT_SHAPE = (17 * 26 * 256,)
 
 DO_TRAINING = True
 features_dir = '../data-livdet-2015'

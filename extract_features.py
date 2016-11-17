@@ -5,7 +5,7 @@ from glob import glob
 from scipy import misc
 from cnnrandom import BatchExtractor
 
-DEFAULT_IN_SHAPE = (200, 200)
+DEFAULT_IN_SHAPE = (252, 324)
 
 
 def retrieve_fnames(dataset_path, image_type):
