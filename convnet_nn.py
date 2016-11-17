@@ -1,14 +1,13 @@
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
+from sklearn import preprocessing
 # from keras.utils.visualize_util import plot
 
 INPUT_SHAPE = (17 * 26 * 256,)
 
 DO_TRAINING = True
 features_dir = '../data-livdet-2015'
-train_dir = '../data-livdet-2015/Training/Digital_Persona'
-test_dir = '../data-livdet-2015/Testing/Digital_Persona'
 PRE_TRAINED_WEIGHTS_FILE = 'pretrain.h5'
 
 model = Sequential()
@@ -26,6 +25,7 @@ test_live = np.load(features_dir + '/test_live.npy')
 test_data = np.concatenate((test_fake, test_live))
 test_labels = np.array([1] * len(test_fake) + [0] * len(test_live))
 del test_fake, test_live
+preprocessing.scale(test_data, copy=False)
 
 if DO_TRAINING:
     train_fake = np.load(features_dir + '/train_fake.npy')
@@ -33,6 +33,7 @@ if DO_TRAINING:
     train_data = np.concatenate((train_fake, train_live))
     train_labels = [1] * len(train_fake) + [0] * len(train_live)
     del train_fake, train_live
+    preprocessing.scale(train_data, copy=False)
 
     model.fit(train_data, train_labels,
               batch_size=32,
