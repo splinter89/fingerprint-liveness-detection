@@ -21,12 +21,18 @@ model.summary()
 print('Trainable weights', model.trainable_weights)
 # plot(model, to_file='model.png')
 
-if DO_TRAINING:
-    train_data = np.concatenate((np.load(features_dir + '/train_fake.npy'), np.load(features_dir + '/train_live.npy')))
-    train_labels = [1] * 1000 + [0] * 1000
+test_fake = np.load(features_dir + '/test_fake.npy')
+test_live = np.load(features_dir + '/test_live.npy')
+test_data = np.concatenate((test_fake, test_live))
+test_labels = np.array([1] * len(test_fake) + [0] * len(test_live))
+del test_fake, test_live
 
-    test_data = np.concatenate((np.load(features_dir + '/test_fake.npy'), np.load(features_dir + '/test_live.npy')))
-    test_labels = [1] * 1500 + [0] * 1000
+if DO_TRAINING:
+    train_fake = np.load(features_dir + '/train_fake.npy')
+    train_live = np.load(features_dir + '/train_live.npy')
+    train_data = np.concatenate((train_fake, train_live))
+    train_labels = [1] * len(train_fake) + [0] * len(train_live)
+    del train_fake, train_live
 
     model.fit(train_data, train_labels,
               batch_size=32,
@@ -36,12 +42,10 @@ if DO_TRAINING:
 
     model.save_weights(PRE_TRAINED_WEIGHTS_FILE)
 else:
-    test_data = np.concatenate((np.load(features_dir + '/test_fake.npy'), np.load(features_dir + '/test_live.npy')))
-    test_labels = np.array([1] * 1500 + [0] * 1000)
-
     model.load_weights(PRE_TRAINED_WEIGHTS_FILE)
-    predicted = model.predict(test_data)
-    predicted = np.array([0 if x < 0.5 else 1 for x in predicted])
 
-    n_ok = np.sum(predicted == test_labels)
-    print 'Validation accuracy = {:.2f} ({:d}/{:d})'.format(float(n_ok) / len(predicted), n_ok, len(predicted))
+predicted = model.predict(test_data)
+predicted = np.array([0 if x < 0.5 else 1 for x in predicted])
+
+n_ok = np.sum(predicted == test_labels)
+print 'Validation accuracy = {:.2f} ({:d}/{:d})'.format(float(n_ok) / len(predicted), n_ok, len(predicted))
