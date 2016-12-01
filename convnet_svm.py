@@ -3,7 +3,7 @@ import numpy as np
 from sklearn import preprocessing, svm
 
 DO_TRAINING = True
-d = '../data-livdet-2015/z_other_features/BSIF-DigPer-2015-features_augmented'
+d = '../data-livdet-2015/z_features_252x324'
 
 nu = 0.3
 gamma = 1e-05
@@ -11,8 +11,8 @@ clf_file = d + '/_nu_{:.2g}_{:.2g}.pkl'.format(nu, gamma)
 
 # live=0 fake=1
 if DO_TRAINING:
-    train_fake = np.loadtxt(d + '/Data_2015_BSIF_7_12_motion_Train_Spoof_DigPerson.txt')
-    train_live = np.loadtxt(d + '/Data_2015_BSIF_7_12_motion_Train_Real_DigPerson.txt')
+    train_fake = np.load(d + '/train_fake.npy')
+    train_live = np.load(d + '/train_live.npy')
     train_x = np.concatenate((train_fake, train_live))
     train_y = np.concatenate((np.ones(len(train_fake)), np.zeros(len(train_live))))
     del train_fake, train_live
@@ -24,8 +24,8 @@ if DO_TRAINING:
     # with open(clf_file, 'wb') as f:
     #     cPickle.dump(clf, f)
 # else:
-    test_fake = np.loadtxt(d + '/Data_2015_BSIF_7_12_motion_Test_Spoof_DigPerson.txt')
-    test_live = np.loadtxt(d + '/Data_2015_BSIF_7_12_motion_Test_Real_DigPerson.txt')
+    test_fake = np.load(d + '/test_fake.npy')
+    test_live = np.load(d + '/test_live.npy')
     test_x = np.concatenate((test_fake, test_live))
     test_y = np.concatenate((np.ones(len(test_fake)), np.zeros(len(test_live))))
     del test_fake, test_live
