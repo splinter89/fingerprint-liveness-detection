@@ -1,0 +1,70 @@
+body {
+    color: #727272;
+    font-family: 'Verdana', sans-serif;
+}
+
+.breadcrumbs {
+    color: #547290;
+}
+
+.step_title {
+    font-size: 180%;
+    margin: 10px 0 15px;
+}
+
+.step {
+    border-radius: 4px;
+    border: 1px solid #aaa;
+    box-shadow: 3px 3px 5px -4px #c4c4c4;
+    display: none;
+    padding: 15px;
+}
+
+.img img {
+    margin: 10px 30px 15px 0;
+}
+
+.step_train img {
+    cursor: pointer;
+}
+
+.step_train button {
+    display: none;
+    font-size: 150%;
+    height: 75px;
+    width: 520px;
+}
+
+.step_test img {
+    margin-left: 140px;
+}
+
+.step_test button {
+    font-size: 150%;
+    height: 75px;
+    margin-right: 20px;
+    width: 250px;
+}
+
+.step_results {
+    font-size: 150%;
+}
+
+.step_results table {
+    margin-top: 20px;
+}
+
+.step_results table tr.correct td {
+    background-color: #c2fec3;
+    color: #016c03;
+}
+
+.step_results table tr.wrong td {
+    background-color: #fccdc7;
+    color: #ca220b;
+}
+
+.step_results table td {
+    font-weight: bold;
+    padding: 15px 25px 15px 15px;
+}
