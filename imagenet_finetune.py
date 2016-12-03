@@ -16,7 +16,9 @@ test_dir = '../data-livdet-2015/Testing/Digital_Persona'
 PRE_TRAINED_WEIGHTS_FILE = 'fingerprints_pretrain.h5'
 DO_TRAINING = True
 
-base_model = inception.InceptionV3(include_top=True)
+base_model = inception.InceptionV3(include_top=True, weights='imagenet')
+for layer in base_model.layers:
+    layer.trainable = False
 
 # x = base_model.get_layer('mixed10').output
 # x = AveragePooling2D((8, 8), strides=(8, 8), name='avg_pool')(x)
@@ -53,28 +55,35 @@ if DO_TRAINING:
     model.fit_generator(
         train_generator,
         samples_per_epoch=250,
-        nb_epoch=1,     # TODO
+        nb_epoch=50,
         validation_data=test_generator,
         verbose=2,
-        nb_val_samples=200)
+        nb_val_samples=2500)
 
     model.save_weights(PRE_TRAINED_WEIGHTS_FILE)
 else:
     model.load_weights(PRE_TRAINED_WEIGHTS_FILE)
 
-img_paths = glob.glob('../data-livdet-2015/Testing/Digital_Persona/*/*.png')
-predicted = {}
+img_paths = glob.glob(test_dir + '/0/*.png') + glob.glob(test_dir + '/1/*.png')
+test_labels = np.concatenate((np.zeros(1000), np.ones(1500)))
+predicted = []
 for img_path in img_paths:
     img = image.load_img(img_path, target_size=IMG_SIZE)
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
 
     x = inception.preprocess_input(x)
-    predicted[img_path] = model.predict(x)
+    prediction = model.predict(x)[0][0]
+    predicted.append(0 if prediction < 0.5 else 1)
 
     if len(predicted) % 200 == 0:
         print len(predicted)
 
-    print img_path
-    print predicted
-    quit(0)
+predicted = np.array(predicted)
+n_ok = np.sum(predicted == test_labels)
+print 'Validation accuracy = {:.2f} ({:d}/{:d})'.format(float(n_ok) * 100 / len(predicted), n_ok, len(predicted))
+
+fpr = float(np.sum((predicted != test_labels) & (test_labels == 0))) / np.sum(test_labels == 0)
+fnr = float(np.sum((predicted != test_labels) & (test_labels == 1))) / np.sum(test_labels == 1)
+ace = (fpr + fnr) / 2
+print 'average classification error = {:.2f}'.format(ace * 100)
