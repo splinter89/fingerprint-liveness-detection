@@ -1,4 +1,4 @@
-import cnnrandom.models as cnn_models
+import cnnrandom.models as cnn_models   # https://github.com/giovanichiachia/convnet-rfw
 import os
 import numpy as np
 from glob import glob
