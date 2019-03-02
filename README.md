@@ -1,6 +1,4 @@
-# Fingerprint Liveness Detection Project
-
-Part of a group project from Machine Learning course.
+# Fingerprint Liveness Detection
 
 ## What's implemented
 
@@ -38,9 +36,9 @@ Inception v3 with ImageNet weights couldn't perform well for our peculiar images
 
 ## Links
 
-[Our full project](https://github.com/Guiliang/FingerprintLivenessDetection-project)
-
 [LivDet 2015 Fingerprint Database](http://livdet.org/registration.php)
+
+[The group project](https://github.com/Guiliang/FingerprintLivenessDetection-project)
 
 ## References
 
