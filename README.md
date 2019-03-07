@@ -22,11 +22,11 @@ Inception v3 settings: samples_per_epoch=250, nb_epoch=25.
 | AUG + BSIF + SVM | 84.86 | 14.44 |
 | AUG + BSIF + NN | 85.93 | 13.82 |
 | CNN-RFW + SVM | 81.16 | 17.95 |
-| CNN-RFW + NN | 81.88 | 18.16 |
+| CNN-RFW + NN | 81.84 | 18.16 |
 |  |  |  |
 | Inception v3 | 66.60 | 28.93 |
 |  |  |  |
-| BSIF/CNN-RFW + NN | 83.24 | 17.15 |
+| BSIF/CNN-RFW + NN | 82.85 | 17.15 |
 
 Average classification error: **ACE** = (FPR + FNR)/2
 
